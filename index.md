@@ -10,7 +10,7 @@ Group Members:
 
 Description of project
 
-A graph (testing for deployment tingz!!)
+Some graph
 
 Description of project
 
