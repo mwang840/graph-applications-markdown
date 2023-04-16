@@ -10,9 +10,14 @@ Group Members:
 
 Description of project
 
-Some graph
+**<h2>Maxwell Wang</h2>**
 
-Description of project
+This project I am working on will be a neighborhood problem
+implementing Depth-First Search algorithm. The dfs algorithm
+will create a path of a person visiting every house within a certain
+neighborhood in an undirected graph while exploring the hood. Each node represents a house and an edge representing the
+time between two houses. Let's use a dfs traversal to make sure
+the person is able to walk to all houses in this neighborhood.
 
 ## Installation Code
 
