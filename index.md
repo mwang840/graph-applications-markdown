@@ -26,8 +26,8 @@ import networkx as nx
 **Doha Airport Terminal Traversal**: 
 
 > **Formal Description**:
->  * Input: Hamad International Airport (41 contact stands in the airport. A graph)
->  * Output: Each gate visited within the terminal and the total distance traversed
+>  * Input: An airport geek who is visiting Qatar wants to traverse Hamad International Airport and visit all the gates inside the terminal (41 contact stands in the airport. A graph)
+>  * Output: Each gate visited within the terminal
 
 **Graph Problem/Algorithm**: [DFS]
 
