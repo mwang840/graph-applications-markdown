@@ -22,16 +22,16 @@ import networkx as nx
 import matplotlib.pyplot as plt
 ```
 
-# First Problem Title
+# Hamad Airport Terminal Traversal
 
 **Doha Airport Terminal Traversal**: 
 An airport geek wants to explore the entire airport of Doha. Currently, the airport
 has 41 gates with airline lounges. Given the airport map which is listed as an undirected graph, lets make a Depth-First
-Search Traversal of the airport to visit every gate or lounge. For example Gate A1 comes after the Terminal (T) since it is the 
-first gate available.
+Search Traversal of the airport to visit every gate or lounge. For example you are allowed
+to visit the terminal **after** you clear security (Node **S**).
 > **Formal Description**:
 >  * Input: An undirected graph of the airport terminal consisting of gates and lounges
->  * Output: A list
+>  * Output: A list of all the gates and the lounges visited within the terminal!
 
 **Graph Problem/Algorithm**: [DFS]
 
@@ -39,8 +39,9 @@ first gate available.
 **Setup code**:
 
 ```python
-if __name__ in "__main__":
-    Airport_Areas = {
+import networkx as nx
+import matplotlib.pyplot as plt
+Airport_Areas = {
         "S": ["T"],
         "T": ["ASL", "AM", "A1", "A2", "B1", "B2", "C1", "C2"],
         "ASL": ["A1", "C2", "AM", "T"],
@@ -87,16 +88,16 @@ if __name__ in "__main__":
         "E3": ["E1", "E2", "E4"],
         "E4": ["E1", "E2", "E3"]
     }
-    G = nx.Graph(Airport_Areas)
-    nx.draw_spring(G, with_labels=True)
-    plt.show()
-    StartLocation = "S"
-    airportDFS()
+StartLocation = "S"
+G = nx.Graph(Airport_Areas)
+nx.draw_spring(G, with_labels=True)
+plt.show()
+airportDFS()
 ```
 
 **Visualization**:
 
-![Image goes here](Relative image filename goes here)
+![Image goes here](dfs-visualization.png)
 
 **Solution code:**
 
@@ -123,4 +124,11 @@ def airportDFS():
 ```
 
 **Interpretation of Results**:
+Based on our results, the airport geek starts
+from security and visits the terminal. We then visit Concourse C and visit the even gates
+C2, C4, C6, C8, C10. Once we get to concourse D, We visit D2 and then move on to node E2 and visit 
+the remaining gates in Concourse E. Then we visit the odd gates in Concourse C,
+visit the Al-Mourjain Lounge (node AM) and visit all Concourse B,
+The First Class Al-Saffaya Lounge (node ASL), all concourse A, visits the remaining
+gates D1, D3 and D4 and ends in style in the Al-Saffya First class lounge
 
