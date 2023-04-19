@@ -31,7 +31,7 @@ routers = {
     "R22": ["R19", "R20", "R21", "R23", "R9", "R14"],
     "R23": ["R19", "R22", "R24", "R25", "R9", "R14"],
     "R24": ["R19", "R23", "R9", "R14"],
-    "R25": ["R23", "R25", "R7", "R8", "R9", "R15", "R20"],
+    "R25": ["R23", "R7", "R8", "R9", "R15", "R20"],
 }
 
 
@@ -48,11 +48,11 @@ for source, destinations in routers.items():
 G.add_nodes_from(routers)
 G.add_weighted_edges_from(router_edges)
 
-pos=nx.spring_layout(G)
+pos=nx.shell_layout(G)
 nx.draw(G, pos, with_labels=True, font_weight='bold')
 edge_weight = nx.get_edge_attributes(G,'weight')
 nx.draw_networkx_edge_labels(G, pos, edge_labels = edge_weight)
-print("Path: ", nx.dijkstra_path(G, "R1", "R25"), "Distance: ", nx.dijkstra_path_length(G, "R1", "R5"))
+print("Path: ", nx.dijkstra_path(G, "R4", "R25"), "Distance: ", nx.dijkstra_path_length(G, "R4", "R25"))
 
 plt.show()
 
