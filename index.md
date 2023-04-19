@@ -22,16 +22,16 @@ import networkx as nx
 import matplotlib.pyplot as plt
 ```
 
-# First Problem Title
+# Hamad Airport Terminal Traversal
 
 **Doha Airport Terminal Traversal**: 
 An airport geek wants to explore the entire airport of Doha. Currently, the airport
 has 41 gates with airline lounges. Given the airport map which is listed as an undirected graph, lets make a Depth-First
-Search Traversal of the airport to visit every gate or lounge. For example Gate A1 comes after the Terminal (T) since it is the 
-first gate available.
+Search Traversal of the airport to visit every gate or lounge. For example you are allowed
+to visit the terminal **after** you clear security (Node **S**).
 > **Formal Description**:
 >  * Input: An undirected graph of the airport terminal consisting of gates and lounges
->  * Output: A list
+>  * Output: A list of all the gates and the lounges visited within the terminal!
 
 **Graph Problem/Algorithm**: [DFS]
 
@@ -39,8 +39,9 @@ first gate available.
 **Setup code**:
 
 ```python
-if __name__ in "__main__":
-    Airport_Areas = {
+import networkx as nx
+import matplotlib.pyplot as plt
+Airport_Areas = {
         "S": ["T"],
         "T": ["ASL", "AM", "A1", "A2", "B1", "B2", "C1", "C2"],
         "ASL": ["A1", "C2", "AM", "T"],
@@ -87,16 +88,16 @@ if __name__ in "__main__":
         "E3": ["E1", "E2", "E4"],
         "E4": ["E1", "E2", "E3"]
     }
-    G = nx.Graph(Airport_Areas)
-    nx.draw_spring(G, with_labels=True)
-    plt.show()
-    StartLocation = "S"
-    airportDFS()
+StartLocation = "S"
+G = nx.Graph(Airport_Areas)
+nx.draw_spring(G, with_labels=True)
+plt.show()
+airportDFS()
 ```
 
 **Visualization**:
 
-![Image goes here](Relative image filename goes here)
+![Image goes here](dfs-visualization.png)
 
 **Solution code:**
 
@@ -123,4 +124,99 @@ def airportDFS():
 ```
 
 **Interpretation of Results**:
+Based on our results, the airport geek starts
+from security and visits the terminal. We then visit Concourse C and visit the even gates
+C2, C4, C6, C8, C10. Once we get to concourse D, We visit D2 and then move on to node E2 and visit 
+the remaining gates in Concourse E. Then we visit the odd gates in Concourse C,
+visit the Al-Mourjain Lounge (node AM) and visit all Concourse B,
+The First Class Al-Saffaya Lounge (node ASL), all concourse A, visits the remaining
+gates D1, D3 and D4 and ends in style in the Al-Saffya First class lounge
 
+ **Shortest Netowrk Path for Transporting Packets**: 
+A network security team would like to know the shortest path to transport packets from a starting router
+to a target router.  The team is presented with a network of 25 routers with arbitrary speeds between them.
+The routers are represented by a undirected weighted graph with the routers as nodes and the speeds as edges.
+In order to assess the fastest path from starting router to target router, the team will use Dijkstra's algorithm.
+The team will use the following code to determine the fastest path from the starting router to the target router.
+> **Formal Description**:
+>  * Input: A weighted undirected graph with the routers as nodes and the speeds as edges.
+>  * Output: The fastest path from the starting router to the target router.
+
+**Code**:
+
+```python
+import networkx as nx
+import matplotlib.pyplot as plt
+import random
+
+G = nx.Graph()
+
+# 25 routers with 5 routers connected to each router
+
+routers = {
+    "R1": ["R2", "R3", "R4", "R5", "R6", "R7"],
+    "R2": ["R1", "R3", "R4", "R7", "R8", "R9"],
+    "R3": ["R1", "R2", "R4", "R10", "R11", "R12"],
+    "R4": ["R1", "R2", "R3", "R5", "R13", "R14"],
+    "R5": ["R1", "R4", "R6", "R13", "R15", "R16"],
+    "R6": ["R1", "R5", "R17", "R18"],
+    "R7": ["R8", "R9", "R10", "R11", "R12", "R2", "R1"],
+    "R8": ["R7", "R9", "R10", "R19", "R20", "R21"],
+    "R9": ["R7", "R8", "R10", "R22", "R23", "R24"],
+    "R10": ["R7", "R8", "R9", "R11", "R3"],
+    "R11": ["R7", "R10", "R12", "R19", "R3"],
+    "R12": ["R7", "R11", "R3"],
+    "R13": ["R14", "R15", "R16", "R17", "R18", "R5", "R4"],
+    "R14": ["R13", "R15", "R16", "R22", "R23", "R24", "R4"],
+    "R15": ["R13", "R14", "R16", "R25", "R5"],
+    "R16": ["R13", "R14", "R15", "R17", "R5"],
+    "R17": ["R13", "R16", "R18", "R6"],
+    "R18": ["R13", "R17", "R6"],
+    "R19": ["R20", "R21", "R22", "R23", "R24", "R11", "R8"],
+    "R20": ["R19", "R21", "R22", "R25", "R8"],
+    "R21": ["R19", "R20", "R22", "R8"],
+    "R22": ["R19", "R20", "R21", "R23", "R9", "R14"],
+    "R23": ["R19", "R22", "R24", "R25", "R9", "R14"],
+    "R24": ["R19", "R23", "R9", "R14"],
+    "R25": ["R23", "R7", "R8", "R9", "R15", "R20"],
+}
+
+
+# each router has a connection to 5 other routers with different weights
+router_edges = []
+
+for source, destinations in routers.items():
+    for destination in destinations:
+        weight = random.randint(1, 10)
+        edge = (source, destination, weight)
+        if (destination, source, weight) not in router_edges:
+            router_edges.append(edge)
+
+G.add_nodes_from(routers)
+G.add_weighted_edges_from(router_edges)
+pos=nx.shell_layou(G)
+nx.draw(G, pos, with_labels=True, font_weight='bold')
+edge_weight = nx.get_edge_attributes(G,'weight')
+nx.draw_networkx_edge_labels(G, pos, edge_labels = edge_weight)
+plt.show()
+```
+
+**Visualization**:
+
+![Image goes here](dijkstra-visualization.png)
+
+**Solution code:**
+
+```python
+print("Path: ", nx.dijkstra_path(G, "R4", "R25"), "Distance: ", nx.dijkstra_path_length(G, "R4", "R25"))
+```
+
+**Output**
+
+```
+Path:  ['R4', 'R2', 'R9', 'R25'] Distance:  8
+```
+
+**Interpretation of Results**:
+Based on our results, the network security team starts from router R4 and visits router R2, R9 and R25.
+The total distance traveled is 8.
