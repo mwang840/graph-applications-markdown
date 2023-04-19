@@ -54,6 +54,6 @@ edge_weight = nx.get_edge_attributes(G,'weight')
 nx.draw_networkx_edge_labels(G, pos, edge_labels = edge_weight)
 print("Path: ", nx.dijkstra_path(G, "R4", "R25"), "Distance: ", nx.dijkstra_path_length(G, "R4", "R25"))
 
-plt.show()
+plt.savefig("dijkstra-visualization.png")
 
-# plt.savefig("dijkstraGraph.png") - saves the graph as a png 
+plt.show()
