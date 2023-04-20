@@ -220,3 +220,113 @@ Path:  ['R4', 'R2', 'R9', 'R25'] Distance:  8
 **Interpretation of Results**:
 Based on our results, the network security team starts from router R4 and visits router R2, R9 and R25.
 The total distance traveled is 8.
+
+
+# City Traversal by Taxi Service
+A taxi driver wants to provide a service bringing passengers to a very popular airport in the city. He needs to know the shortest path to get to the airport from any address in the city. We will represent the addresses in the city as the nodes of a graph, and the streets will be edges.
+> **Formal Description**:
+>  * Input: An unweighted, undirected graph where the nodes are addresses in the city.
+>  * Output: A guide for the driver to get to a specific node (the airport) from any other node.
+
+**Graph Problem/Algorithm**: [BFS]
+
+**Setup Code**
+
+```python
+def generate_graph () -> Graph:
+
+    city_roads = {
+        1: [2, 11, 10],
+        2: [22, 23, 13, 1, 3],
+        3: [2, 22, 14, 4],
+        4: [3, 5, 15],
+        5: [4, 6, 17],
+        6: [5, 7, 17, 20],
+        7: [6, 8, 20],
+        8: [7, 20, 21, 9],
+        9: [8, 21, 10],
+        10: [9, 11, 1],
+        11: [10, 1, 18, 12],
+        12: [11, 18, 13, 16],
+        13: [2, 14, 16, 12],
+        14: [3, 13, 15, 16],
+        15: [4, 14, 17, 16],
+        16: [13, 14, 15, 17, 19, 18, 12],
+        17: [15, 20, 16, 19],
+        18: [11, 12, 16, 19],
+        19: [16, 17, 18, 20],
+        20: [6, 17, 19, 7, 8],
+        21: [8, 9],
+        22: [3, 2, 24, 23],
+        23: [2, 22, 24, 25],
+        24: [25, 26, 23, 22],
+        25: [23, 24, 26],
+        26: [24, 25],
+    }
+
+    return nx.Graph(city_roads)
+```
+
+**Visualization**:
+
+![Visualization of BFS graph before the algorithm.](before-bfs.png)
+
+**Solution code:**
+
+```python
+def perform_BFS (G: Graph, start: int, end: int) -> Graph:
+
+    visited = { start }     # set of visited
+    discovered = { start }  # set of discovered
+    queue = Queue()         # queue of discovered to be visited
+
+    bfs_G = nx.Graph()
+    bfs_G.add_node(start, distance=0, previous=None)
+
+    for neighbor in G.neighbors(start):
+        bfs_G.add_node(neighbor, distance=1, previous=start)
+        bfs_G.add_edge(start, neighbor)
+        discovered.add(neighbor)
+        queue.put(neighbor)
+
+    while not queue.empty():
+
+        visited_node = queue.get()
+        visited.add(visited_node)
+        distances = nx.get_node_attributes(bfs_G, "distance")
+        previous_distance = distances[visited_node]
+
+        for neighbor in G.neighbors(visited_node):
+            if neighbor not in discovered:
+                bfs_G.add_node(neighbor, distance=previous_distance+1, previous=visited_node)
+                bfs_G.add_edge(visited_node, neighbor)
+                discovered.add(neighbor)
+                queue.put(neighbor)
+
+    previouses = nx.get_node_attributes(bfs_G, "previous")
+
+    print(f"Start is {start}.", end="")
+    print(f" End is {end}. Path is", end="")
+    while end is not None:
+        if end is airport:
+            print(f" {end}")
+        else:
+            print(f" {end} ->", end="")
+        end = previouses[end]
+
+    return bfs_G
+```
+
+**Output**
+
+Example for if the driver is at node 9 and the airport is at node 22:
+
+> Start is 22. End is 9. Path is 9 -> 10 -> 1 -> 2 -> 22
+
+![Visualization of BFS graph after the algorithm.](after-bfs.png)
+
+**Interpretation of Results**
+
+Above shows a tree of the paths to the airport (node 22). The numbers on the top line are the labels for each address. The numbers on the bottom are the next address to visit to get to the airport (left) and the distance from the airport (right).
+
+Using this tree, the driver can get to the airport from anywhere in the city. All he needs to do is follow the tree back to the airport's node. For example, if the driver is at node 9, his path would be 9 -> 10 -> 1 -> 2 -> 22.
