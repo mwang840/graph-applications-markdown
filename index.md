@@ -9,6 +9,7 @@ Group Members:
 * Nicholas DiGirolamo (nickdigi@udel.edu )
 
 
+
 ## Installation Code
 
 ```sh
@@ -21,19 +22,23 @@ $> pip install networkx
 import networkx as nx
 import matplotlib.pyplot as plt
 ```
-<h2>Maxwell Wang</h2>
+
+
 # Hamad Airport Terminal Traversal
+
 
 **Doha Airport Terminal Traversal**: 
 An airport geek wants to explore the entire airport of Doha. Currently, the airport
 has 41 gates with airline lounges. Given the airport map which is listed as an undirected graph, lets make a Depth-First
 Search Traversal of the airport to visit every gate or lounge. For example you are allowed
 to visit the terminal **after** you clear security (Node **S**).
-> **Formal Description**:
+
+
 >  * Input: An undirected graph of the airport terminal consisting of gates and lounges
 >  * Output: A list of all the gates and the lounges visited within the terminal!
 
 **Graph Problem/Algorithm**: [DFS]
+
 
 
 **Setup code**:
@@ -41,6 +46,8 @@ to visit the terminal **after** you clear security (Node **S**).
 ```python
 import networkx as nx
 import matplotlib.pyplot as plt
+
+
 Airport_Areas = {
         "S": ["T"],
         "T": ["ASL", "AM", "A1", "A2", "B1", "B2", "C1", "C2"],
@@ -198,23 +205,30 @@ pos=nx.shell_layou(G)
 nx.draw(G, pos, with_labels=True, font_weight='bold')
 edge_weight = nx.get_edge_attributes(G,'weight')
 nx.draw_networkx_edge_labels(G, pos, edge_labels = edge_weight)
+
 plt.show()
 ```
 
 **Visualization**:
 
+
 ![Image goes here](dijkstra-visualization.png)
+
 
 **Solution code:**
 
-```python
+
 print("Path: ", nx.dijkstra_path(G, "R4", "R25"), "Distance: ", nx.dijkstra_path_length(G, "R4", "R25"))
+
 ```
 
 **Output**
 
 ```
+
+
 Path:  ['R4', 'R2', 'R9', 'R25'] Distance:  8
+
 ```
 
 **Interpretation of Results**:
